@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+
+    <title>IS luchthavenbord demo</title>
+
+    <script type="text/javascript" src="jquery.js"></script>
+    <script src="http://simile.mit.edu/timeline/api/timeline-api.js" type="text/javascript"></script>
+
+    <style type="text/css">
+
+        #title {
+            margin: 20px auto;
+            width: 550px;
+            text-align: center;
+        }
+
+        .events {
+            position: absolute;
+        }
+
+        .events * {
+            position: relative;
+            padding: 10px 15px;
+            margin: 1px;
+            float: left;
+            background: #4479BA;
+            display: inline-block;
+            color: #FFF;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+            border: solid 1px #20538D;
+            -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+            -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+        }
+
+        .events *:nth-child(odd) {
+            background: #4bbe56;
+        }
+
+        .events *:first-child {
+            background: #00091f;
+            margin-right: 10px;
+        }
+
+
+    </style>
+
+
+    <script type="text/javascript" src="jquery.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+
+            $('#add').click(function () {
+                $('.events').append("<div>" + $('input[name=toAdd]').val() + "</div>");
+            });
+
+            $('#delay').click(function () {
+                $('.events > div:not(:first-child)').animate({left: '+=5%'}, 500);
+            });
+
+        });
+
+
+        var tl;
+        function onLoad() {
+            var bandInfos = [
+                Timeline.createBandInfo({
+                    width: "100%",
+                    intervalUnit: Timeline.DateTime.HOUR,
+                    intervalPixels: 100
+                })
+            ];
+            tl = Timeline.create(document.getElementById("my-timeline"), bandInfos);
+        }
+
+        var resizeTimerID = null;
+        function onResize() {
+            if (resizeTimerID == null) {
+                resizeTimerID = window.setTimeout(function () {
+                    resizeTimerID = null;
+                    tl.layout();
+                }, 500);
+            }
+        }
+
+    </script>
+
+</head>
+
+<body onload="onLoad();" onresize="onResize();">
+
+
+<div id="my-timeline" style="height: 30px; border: 1px solid #aaa;">
+
+</div>
+
+
+<div id="wrap" class="events">
+
+    <div id="eventtitle">OK 1</div>
+    <div id="event1">Event 1</div>
+    <div id="event2">Event 2</div>
+    <div id="event3">Event 3</div>
+
+</div>
+
+<br><br><br><br><input type="text" name="toAdd"/>
+<button id="add">Add event</button>
+
+<br><br><br><br>
+<button id="delay">Delay event 1</button>
+
+</body>
+
+</html>
